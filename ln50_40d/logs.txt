@@ -1,0 +1,45 @@
+2025-01-29T03:26:04.004Z INFO  [ln_simln_jamming::revenue_interceptor] Peacetime revenue: 1118625 less than simulation revenue: 246233818 after: 1003433.9684458s
+2025-01-29T03:26:04.026Z DEBUG [simln_lib::sim_node] Got route: path 0:
+ node_id: 03aab7e9327716ee946b8fbfae039b0db85356549e72c5cca113ea67893d0821e5, short_channel_id: 412316860481536, fee_msat: 1037, cltv_expiry_delta: 144
+ node_id: 03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f, short_channel_id: 415615395364864, fee_msat: 37106, cltv_expiry_delta: 0
+ blinded_tail: None
+
+2025-01-29T03:26:04.111Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 415615395364864:23430 on 399122720948224 with outcome settled
+2025-01-29T03:26:04.145Z INFO  [ln_simln_jamming::sink_interceptor] HTLC from peer -> target, general jamming if unendorsed: 382630046531584:202 unendorsed -> 385928581414912 with fee 1000 (21362 -> 20362) and cltv 40 (342 -> 302)
+2025-01-29T03:26:04.145Z INFO  [ln_simln_jamming::sink_interceptor] HTLC from peer -> target has sufficient reputation, forwarding endorsed
+2025-01-29T03:26:04.145Z INFO  [ln_simln_jamming::reputation_interceptor] Node 4 forwarding: 382630046531584:202 endorsed -> 385928581414912 with fee 1000 (21362 -> 20362) and cltv 40 (342 -> 302) with outcome forward as endorsed
+2025-01-29T03:26:04.150Z DEBUG [simln_lib::sim_node] Got route: path 0:
+ node_id: 0364913d18a19c671bb36dd04d6ad5be0fe8f2894314c36a9db3f03c2d414907e1, short_channel_id: 388127604670464, fee_msat: 1099, cltv_expiry_delta: 80
+ node_id: 028d98b9969fbed53784a36617eb489a59ab6dc9b9d77fcdca9ff55307cd98e3c4, short_channel_id: 378232000020480, fee_msat: 49, cltv_expiry_delta: 80
+ node_id: 03aab7e9327716ee946b8fbfae039b0db85356549e72c5cca113ea67893d0821e5, short_channel_id: 409018325598208, fee_msat: 0, cltv_expiry_delta: 40
+ node_id: 0294774ee02a9faa5a5870061f7f4833686184ad14a0b163c49442516c9edac1db, short_channel_id: 412316860481536, fee_msat: 99169, cltv_expiry_delta: 0
+ blinded_tail: None
+
+2025-01-29T03:26:04.186Z INFO  [ln_simln_jamming::reputation_interceptor] Node 5 forwarding: 412316860481536:7136 unendorsed -> 415615395364864 with fee 1037 (38143 -> 37106) and cltv 144 (328 -> 184) with outcome forward as unendorsed
+2025-01-29T03:26:04.192Z DEBUG [simln_lib::sim_node] Got route: path 0:
+ node_id: 03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f, short_channel_id: 415615395364864, fee_msat: 26, cltv_expiry_delta: 0
+ blinded_tail: None
+
+2025-01-29T03:26:04.206Z INFO  [simln_lib] Processed 154777 payments sending 512064616511 msat total with 63.86% success rate.
+2025-01-29T03:26:04.231Z ERROR [ln_simln_jamming] Attacker has no more reputation with the target
+2025-01-29T03:26:04.232Z ERROR [simln_lib] Track payment failed for 1e25ba9026a401527cdeb99b25a106f81586f5a83b9940065ed819c991272402: Track payment error: shutdown during payment tracking.
+2025-01-29T03:26:04.232Z ERROR [simln_lib] Track payment failed for 6015027ad4e800b7a7c6fab1580f486618337cd3a71a35e4cb28ac1838d294cc: Track payment error: shutdown during payment tracking.
+2025-01-29T03:26:04.233Z ERROR [simln_lib] Track payment failed for b12ed8212930e373ec709d797704c726a73e56bac3511ea4678ddc41a05f9922: Track payment error: shutdown during payment tracking.
+2025-01-29T03:26:04.233Z ERROR [simln_lib] Track payment failed for 94025f01227771fe7174e8fb458564cbf905f847b8adcb3e59a5562ab064d12c: Track payment error: shutdown during payment tracking.
+2025-01-29T03:26:04.233Z INFO  [simln_lib] All producers finished. Shutting down.
+2025-01-29T03:26:04.305Z INFO  [ln_simln_jamming::reputation_interceptor] Node 22 forwarding: 385928581414912:1092 endorsed -> 352943232581632 with fee 1000 (20362 -> 19362) and cltv 222 (302 -> 80) with outcome fail due to no reputation
+2025-01-29T03:26:04.308Z INFO  [ln_simln_jamming::reputation_interceptor] Node 4 forwarding: 388127604670464:1368 unendorsed -> 378232000020480 with fee 1099 (100317 -> 99218) and cltv 80 (240 -> 160) with outcome forward as unendorsed
+2025-01-29T03:26:04.338Z ERROR [simln_lib::sim_node] Could not notify payment result: Ok(PaymentResult { htlc_count: 1, payment_outcome: Success }).
+2025-01-29T03:26:04.357Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 412316860481536:7136 on 415615395364864 with outcome settled
+2025-01-29T03:26:04.357Z ERROR [simln_lib::sim_node] Could not notify payment result: Ok(PaymentResult { htlc_count: 1, payment_outcome: Success }).
+2025-01-29T03:26:04.442Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 385928581414912:1092 on 352943232581632 with outcome settled
+2025-01-29T03:26:04.442Z ERROR [simln_lib::sim_node] Could not remove htlcs from channel: NotifierError: key Outgoing htlc on 352943232581632 with incoming ref 385928581414912:1092 not found.
+2025-01-29T03:26:04.442Z ERROR [simln_lib::sim_node] Could not notify payment result: Ok(PaymentResult { htlc_count: 1, payment_outcome: Success }).
+2025-01-29T03:26:04.471Z INFO  [ln_simln_jamming::reputation_interceptor] Node 24 forwarding: 378232000020480:1524 unendorsed -> 409018325598208 with fee 49 (99218 -> 99169) and cltv 80 (160 -> 80) with outcome forward as unendorsed
+2025-01-29T03:26:04.551Z DEBUG [simln_lib::sim_node] Waiting for simulated graph to shutdown.
+2025-01-29T03:26:04.619Z INFO  [ln_simln_jamming::reputation_interceptor] Node 5 forwarding: 409018325598208:5525 unendorsed -> 412316860481536 with fee 0 (99169 -> 99169) and cltv 40 (80 -> 40) with outcome forward as unendorsed
+2025-01-29T03:26:04.784Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 409018325598208:5525 on 412316860481536 with outcome settled
+2025-01-29T03:26:04.784Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 378232000020480:1524 on 409018325598208 with outcome settled
+2025-01-29T03:26:04.784Z INFO  [ln_simln_jamming::reputation_interceptor] Resolving htlc 388127604670464:1368 on 378232000020480 with outcome settled
+2025-01-29T03:26:04.784Z ERROR [simln_lib::sim_node] Could not notify payment result: Ok(PaymentResult { htlc_count: 1, payment_outcome: Success }).
+2025-01-29T03:26:04.784Z DEBUG [simln_lib::sim_node] Simulated graph shutdown.
