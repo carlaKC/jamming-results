@@ -1,7 +1,8 @@
 import sys
+import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import os
+import numpy as np
 
 if len(sys.argv) != 3:
     print("Usage: python reputation_graph.py <file> <channel_id>")
@@ -16,43 +17,36 @@ df = pd.read_csv(file_path)
 # Filter for the specified outgoing channel ID
 df_filtered = df[df['outgoing_channel_id'] == channel_id]
 
-if df_filtered.empty:
-    print(f"No data found for outgoing channel ID {channel_id}")
-    sys.exit(1)
 
-# Compute the y-values for the graph
-reputation_delta = df_filtered['incoming_revenue'] - df_filtered['outgoing_reputation'] - df_filtered['in_flight_risk'] - df_filtered['htlc_risk']
+df_filtered['reputation_delta'] = df_filtered['outgoing_reputation'] - df_filtered['in_flight_risk'] - df_filtered['htlc_risk'] - df_filtered['incoming_revenue'] 
 
-# Outlier detection using IQR (Interquartile Range)
-Q1 = reputation_delta.quantile(0.25)
-Q3 = reputation_delta.quantile(0.75)
-IQR = Q3 - Q1
+# Example DataFrame (replace this with your actual DataFrame)
+# df_filtered = pd.DataFrame({'reputation_delta': your_data_here})
 
-# Remove outliers beyond 1.5 * IQR
-reputation_delta_clean = reputation_delta[(reputation_delta >= (Q1 - 1.5 * IQR)) & (reputation_delta <= (Q3 + 1.5 * IQR))]
+outlier_threshold = 1
+lower_percentile = np.percentile(df_filtered['reputation_delta'], outlier_threshold)
+upper_percentile = np.percentile(df_filtered['reputation_delta'], 100 - outlier_threshold)
+df_smooth = df_filtered[(df_filtered['reputation_delta'] >= lower_percentile) & (df_filtered['reputation_delta'] <= upper_percentile)]
 
-# Generate x-axis values (assuming each row is one second apart)
-x_values = range(len(reputation_delta_clean))
+# Step 2: Calculate the Exponential Moving Average (EMA)
+alpha = 0.01  # Adjust for how much decay you want
+df_smooth['ema'] = df_smooth['reputation_delta'].ewm(alpha=alpha).mean()
 
-# Plot the data with a thinner line
-plt.figure(figsize=(10, 5))
-plt.plot(x_values, reputation_delta_clean, label='Reputation', color='blue', linewidth=1)  # Thin line
+# Step 3: Plot the original and EMA values
+plt.figure(figsize=(10, 6))
+# Change the first plot to show dots instead of a line
+#plt.plot(df_filtered['reputation_delta'], 'o', label='Reputation Delta No Outliers', alpha=0.5)
+plt.plot(df_smooth['reputation_delta'], 'o', label='Reputation Delta No Outliers', alpha=0.7)
+plt.plot(df_smooth['ema'], label='Exponential Moving Average', linewidth=2)
 
-# Set Y-axis limits: lower bound is capped at -1e9, upper bound based on the cleaned data range
-y_min = min(reputation_delta_clean)
-y_max = max(reputation_delta_clean)
-y_padding = (y_max - y_min) * 0.1  # 10% padding on the upper bound
+# Add a red line at y = 0
+plt.axhline(0, color='red', linewidth=2, linestyle='--', label='Zero Line')
 
-# Set the minimum Y value to -1e9, and let the upper bound adjust dynamically
-plt.ylim(max(y_min, -1e9), y_max + y_padding)
-
-plt.xlabel("Transaction Count")
-plt.ylabel("Value")
-plt.title(f"Reputation Graph for Channel {channel_id}")
+plt.title('Reputation Delta with Moving Decaying Average')
+plt.xlabel('Index')
+plt.ylabel('Reputation Delta')
 plt.legend()
-plt.grid()
 
-# Save the graph in the same directory as the input file
 output_dir = os.path.dirname(file_path)
 file_name = os.path.basename(file_path).rsplit('.', 1)[0]  # Remove extension
 output_path = os.path.join(output_dir, f"{file_name}_reputation.png")
